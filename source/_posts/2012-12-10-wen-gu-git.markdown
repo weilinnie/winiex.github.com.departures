@@ -5,3 +5,112 @@ date: 2012-12-10 02:02
 comments: true
 categories: [git,tools]
 ---
+在这篇文章里，我将粗略地回顾一下 [Git][git] 的相关知识。我希望在回顾的过程中，也能够获得新的认识以及理解，所以这篇文章的名字叫做温故 Git，取“**温故知新**”之意，刚好这样一来也能应一下最近热播的贺岁片温故1942的景 :)。
+
+## 小忆
+
+大约在一年多前，也就是我还在读大二的时候，我开始使用[版本控制系统][version control]（简称 VCS，即 versoin control system）来管理我的项目文件。我还记得，当时这么做的原因，一是觉得好玩，二就是觉得，无论如何，再也不能出现像做课程设计的过程中因为误操作而导致的代码丢失的状况了。可以说，是丢失代码引起的痛苦让我发现了对重要文件进行版本管理的重要性——所谓“吃一堑，长一智”是也。
+
+最开始的时候，我使用的是[SVN][svn]，因为这是一个学长介绍给我的，而我又对于版本控制系统没有实践性的理解，所以就二话不说用了起来。老实说，SVN 是一个非常优秀的版本控制系统，而且，因为[一些原因][why svn but not git]，国内一些比较大型、成熟的公司的项目管理过程中很多是使用的 SVN 进行的代码管理。配合着使用 SVN，我最开始将代码托管在学长推荐的 [Google Code][google code] 上，后来自己探索发现了 [SourceFourge][sourcefourge]，然后将代码托管转移到了那里。我记得，其实那个时候自己对于版本控制的理论并没有较为深入的理解，所以当时就把它当作了一个能够在服务器端进行代码“容灾备份”的工具，而使用 SVN 的方式也是利用 Eclipse 上带有 GUI 的插件进行操作的方式。现在想想还是挺嫩的 :)。
+
+后来在今年的暑假，我回家修养了两个月。这两个月里面我正好百无聊赖，然后又接触到了一些赞扬以及推荐 Git 的文章，所以就开始尝试起 Git 来。这一尝试不要紧，一尝试就爱上 Git 了。直到现在，我已经完全转向了 Git。而且更赞的是，我了解并且熟悉了 Github 这个超赞的服务，而且也在 Github 上发现了超多有意思的项目——甚至我的一些老朋友也都在 Github 上呢！到现在，我的代码已经全部托管到了 Github。
+
+想想看来，这就是一个不断折腾，然后不断改进的过程啊。不知道再过几年，会不会有新的工具出现，然后弥补 [Git 的一些缺陷][git drawbacks]。到那个时候，我应该又会动心，然后尝试使用它了吧。我还真是一个“喜新厌旧”的人 :)。
+
+只是，如果我要去参加工作的话，很大的概率上，还是得换回 SVN了 :(。
+
+## Git 的设计哲学
+
+本质上，Git 无它，工具耳。作为一个工具，Git 必然会有自己的设计、使用上的哲学。设计哲学是工具创造者在创造工具的过程中进行抉择时会回过头参考的依据（例如 Unix 操作系统的 [KISS 原则][kiss]），而使用哲学则是工具使用者在使用工具的过程中需要遵守的原则，所谓 Convention 是也——你可以不这么做，但是使用工具的最佳实践一般都这么做（譬如我们常常说到的 [Coding Convention][coding convention]）。在这小节，我想介绍一下 Git 的设计哲学。在接下来介绍完 Git 的基本操作后，我再来介绍下 Git 的使用哲学。
+
+<!-- more -->
+
+
+
+## Git 中最重要的基础知识
+
+在这一小节，我将回顾一些统筹整个 git 的基础知识。这些基础知识将会影响你对于每个命令使用时的理解。
+
+### Git 是一个分布式的 VCS
+
+或许你已经早就听说过，Git 是一个分布式的版本管理系统。要理解什么是分布式的——或者说去中心化的（decentralized）——版本控制系统，我们就要先去了解，什么中心化的版本控制系统。
+
+譬如说，SVN 就是一个中心化的版本控制系统。一个典型的中心化版本控制系统的结构如下图：
+
+![](http://ww4.sinaimg.cn/large/a74ecc4cjw1dzpn2ki210j.jpg)
+
+不难发现，中心化的版本控制系统会存在一个中心服务器，在这个服务器中维护着整个版本管理系统最重要的数据——例如，源文件，文件变更数据，版本变化历史数据等。
+
+### 工作目录中文件的几种状态
+
+所谓工作目录，就是你的项目文件所在的那个目录。在 git 版本管理系统中，工作目录中的文件存在四种状态：未跟踪，已提交、已修改、已暂存。实际上，这四种状态之间的关系可以用下图来展示：
+
+这几种文件的状态十分重要。在以后使用 git 进行版本控制的过程中，**你需要随时了解每个文件现在所处的文件状态，然后再根据该状态来进行下一步的版本管理操作，这样才不会犯迷糊出错。**
+
+而且，git 中的一些命令针对文件的不同状态存在着不同的语义——也就是说，同一个命令在同一个文件上进行操作时，如果这个文件处于不同的状态，那么产生的效果会是不一样的。正是因为如此，在后文中我回顾 git 的某些命令时，会分为针对这四种状态的四个情况来阐述。
+
+## Git 的基本操作
+
+### git init
+
+这个命令用于在尚未建立 git 版本控制的工作目录来初始化建立 git 仓库。在建立了仓库之后
+
+### git add (ga)
+
+#### 针对没有跟踪的文件
+
+#### 针对已经跟踪的文件
+
+#### 针对已经暂存的文件
+
+### git rm
+
+一句话：git rm 是针对已经加入 git 版本控制的文件的删除操作。
+
+#### 针对没有跟踪的文件
+
+#### 针对已经跟踪的文件
+
+#### 针对已经暂存的文件
+git rm x.txt == rm x.txt && 将这个删除文件的修改暂存
+
+git rm 的语意是，从版本管理系统中删除这个文件。也就是说，之后的版本管理过程中不会再出现这个文件——除非你自己再创建一个相同名字的文件。
+
+关键点：git rm 是针对的已经加入版本管理的被跟踪的文件。没有被跟踪的文件是不起作用的——删除没有加入跟踪的文件，直接用 rm 命令即可。
+
+
+
+同样的效果可以这样实现：rm x.txt && git rm x.txt（老实说，这个操作）
+
+所以，必须要记住的是，git rm 命令会将相应的文件删除，所以做这个操作的时候一定要三思——接下来的版本管理的过程中，该文件就不会存在了。
+
+但是，这并不代表该文件就再也无法找回了。因为，既然你可以对该文件使用 git rm 命令的话，那么该文件就已经存在于版本管理的历史之中了——这就意味着，你随时可以通过 rollback 操作来回到删除这个文件的那次 commit 之前的状态。
+
+### git status (gst)
+
+## Git 的进阶操作
+
+## Git 的初级底层知识
+
+## 简单的 Git workflow
+
+## Git 的使用哲学
+
+
+##备注
+
+1. 本文的实际操作环境为 arch linux。所以和不同操作系统（例如 mac os 或者 windows）上的试验结果会有略微不同。如果你想要了解一些跨平台使用 git 的经验，你可以去看看 Stack Overflow 上的[这篇帖子][different platform]。
+2. 本文的行文过程中参考了 [Pro Git][pro git] 一书，一些图片素材也取自该书。感谢该书作者 [Scott Chacon][scott chacon] 的无私奉献！
+
+[git]: http://git-scm.com
+[version control]: http://en.wikipedia.org/wiki/Revision_control
+[svn]: http://subversion.apache.org/
+[git drawbacks]: http://stackoverflow.com/questions/77485/what-are-the-relative-strengths-and-weaknesses-of-git-mercurial-and-bazaar
+[google code]: https://code.google.com
+[sourcefourge]: http://sourceforge.net
+[kiss]: http://en.wikipedia.org/wiki/KISS_principle
+[coding convention]: http://en.wikipedia.org/wiki/Coding_conventions
+[different platform]: http://stackoverflow.com/questions/2332349/best-practices-for-cross-platform-git-config
+[pro git]: http://git-scm.com/2010/06/09/pro-git-zh.html
+[scott chacon]: http://scottchacon.com/
+[why svn but not git]: http://www.infoq.com/cn/news/2012/09/is-git-ready-to-replace-svn

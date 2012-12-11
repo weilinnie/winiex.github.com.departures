@@ -4,7 +4,6 @@ title: "开始我的技术博客之旅"
 date: 2012-12-08 21:20
 categories: other
 comments: true
-categories: [other]
 ---
 
 {% img http://images2.wikia.nocookie.net/__cb20091026215012/borderlands/images/9/9f/Claptrap.png %}
