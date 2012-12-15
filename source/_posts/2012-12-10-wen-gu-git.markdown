@@ -5,13 +5,15 @@ date: 2012-12-10 02:02
 comments: true
 categories: [git,tools]
 ---
-在这篇文章里，我将粗略地回顾一下 [Git][git] 的相关知识。我希望在回顾的过程中，也能够获得新的认识以及理解，所以这篇文章的名字叫做温故 Git，取“**温故知新**”之意，刚好这样一来也能应一下最近热播的贺岁片温故1942的景 :)。
+在这篇文章里，我将粗略地回顾一下 [Git][git] 的相关知识。我希望在回顾的过程中，也能够获得新的认识以及理解，所以这篇文章的名字叫做温故 Git，取“**温故知新**”之意 :)。
 
 ## 小忆
 
 大约在一年多前，也就是我还在读大二的时候，我开始使用[版本控制系统][version control]（简称 VCS，即 versoin control system）来管理我的项目文件。我还记得，当时这么做的原因，一是觉得好玩，二就是觉得，无论如何，再也不能出现像做课程设计的过程中因为误操作而导致的代码丢失的状况了。可以说，是丢失代码引起的痛苦让我发现了对重要文件进行版本管理的重要性——所谓“吃一堑，长一智”是也。
 
 最开始的时候，我使用的是[SVN][svn]，因为这是一个学长介绍给我的，而我又对于版本控制系统没有实践性的理解，所以就二话不说用了起来。老实说，SVN 是一个非常优秀的版本控制系统，而且，因为[一些原因][why svn but not git]，国内一些比较大型、成熟的公司的项目管理过程中很多是使用的 SVN 进行的代码管理。配合着使用 SVN，我最开始将代码托管在学长推荐的 [Google Code][google code] 上，后来自己探索发现了 [SourceFourge][sourcefourge]，然后将代码托管转移到了那里。我记得，其实那个时候自己对于版本控制的理论并没有较为深入的理解，所以当时就把它当作了一个能够在服务器端进行代码“容灾备份”的工具，而使用 SVN 的方式也是利用 Eclipse 上带有 GUI 的插件进行操作的方式。现在想想还是挺嫩的 :)。
+
+<!-- more -->
 
 后来在今年的暑假，我回家修养了两个月。这两个月里面我正好百无聊赖，然后又接触到了一些赞扬以及推荐 Git 的文章，所以就开始尝试起 Git 来。这一尝试不要紧，一尝试就爱上 Git 了。直到现在，我已经完全转向了 Git。而且更赞的是，我了解并且熟悉了 Github 这个超赞的服务，而且也在 Github 上发现了超多有意思的项目——甚至我的一些老朋友也都在 Github 上呢！到现在，我的代码已经全部托管到了 Github。
 
@@ -23,8 +25,6 @@ categories: [git,tools]
 
 本质上，Git 无它，工具耳。作为一个工具，Git 必然会有自己的设计、使用上的哲学。设计哲学是工具创造者在创造工具的过程中进行抉择时会回过头参考的依据（例如 Unix 操作系统的 [KISS 原则][kiss]），而使用哲学则是工具使用者在使用工具的过程中需要遵守的原则，所谓 Convention 是也——你可以不这么做，但是使用工具的最佳实践一般都这么做（譬如我们常常说到的 [Coding Convention][coding convention]）。在这小节，我想介绍一下 Git 的设计哲学。在接下来介绍完 Git 的基本操作后，我再来介绍下 Git 的使用哲学。
 
-<!-- more -->
-
 
 
 ## Git 中最重要的基础知识
@@ -33,11 +33,11 @@ categories: [git,tools]
 
 ### Git 是一个分布式的 VCS
 
-或许你已经早就听说过，Git 是一个分布式的版本管理系统。要理解什么是分布式的——或者说去中心化的（decentralized）——版本控制系统，我们就要先去了解，什么中心化的版本控制系统。
+或许你已经早就听说过，Git 是一个分布式的版本管理系统。要理解什么是分布式的——或者说去中心化的（decentralized）——版本控制系统，我们就要先去了解，什么是中心化的版本控制系统。
 
 譬如说，SVN 就是一个中心化的版本控制系统。一个典型的中心化版本控制系统的结构如下图：
 
-![](http://ww4.sinaimg.cn/large/a74ecc4cjw1dzpn2ki210j.jpg)
+![](http://git-scm.com/figures/18333fig0102-tn.png)
 
 不难发现，中心化的版本控制系统会存在一个中心服务器，在这个服务器中维护着整个版本管理系统最重要的数据——例如，源文件，文件变更数据，版本变化历史数据等。
 
@@ -96,6 +96,13 @@ git rm 的语意是，从版本管理系统中删除这个文件。也就是说�
 
 ## Git 的使用哲学
 
+## 一份幻灯片
+
+这次我之所以“温故 Git”，是因为受到学弟学妹的邀请要给大家普及一下 Git 的初级知识，从而好让团队内部能够把版本控制导向的开发流程建立起来。为了这次的技术分享会，我做了一份幻灯片。在这里也把它提供给各位，希望能够帮助大家进一步理解、记忆 :)，权当总结之用。
+
+<iframe class="speakerdeck-iframe" style="border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; border: 0px; background-color: transparent; margin: 0px; padding: 0px; width: 787px; height: 652.75px; background-position: initial initial; background-repeat: initial initial;" frameborder="0" src="//speakerdeck.com/player/123b809028a40130c3d1123139180559?" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+
+幻灯中如果存在任何谬误之处，还希望您不吝指出！
 
 ##备注
 
